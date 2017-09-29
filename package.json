@@ -1,0 +1,36 @@
+{
+  "name": "api-aws-serverless-graphql",
+  "description": "AWS Lambda in Typescript and API Gateway using GraphQL",
+  "version": "0.1.0",
+  "author": "Felipe Hlibco",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hlibco/serverless-graphql.git"
+  },
+  "bugs": "https://github.com/hlibco/serverless-graphql/issues",
+  "engines": {
+    "npm": ">=6",
+    "node": ">=6"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "serverless offline start --port 3002",
+    "deploy": "./scripts/run.sh deploy",
+    "remove": "./scripts/run.sh remove"
+  },
+  "dependencies": {
+    "apollo-server-lambda": "1.1.2",
+    "apollo-server-module-graphiql": "1.1.2",
+    "graphql": "0.11.3",
+    "graphql-tools": "1.2.3",
+    "serverless-domain-manager": "^1.1.12",
+    "serverless-enable-api-logs": "2.0.0",
+    "uuid": "3.0.1"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "0.0.16",
+    "serverless-offline": "3.15.3",
+    "serverless-plugin-typescript": "1.1.2"
+  }
+}

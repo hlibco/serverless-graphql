@@ -1,0 +1,64 @@
+frameworkVersion: '>=1.21.0 <2.0.0'
+service: '${self:provider.environment.SERVICE}'
+
+# Custom variables
+# ===================================================================
+custom:
+  stage: '${opt:stage, self:provider.stage}'
+  customDomain:
+    basePath: ""
+    domainName: ${self:provider.environment.API_DOMAIN}
+    stage: dev
+  documentation:
+    version: '1'
+    summary: 'My API'
+    description: 'This is my API'
+    tags:
+      -
+        name: 'GraphQL'
+        description: 'Service to return data using GraphQL'
+
+# The `provider` block defines where your service will be deployed
+# ===================================================================
+provider:
+  name: aws
+  stage: dev
+  runtime: nodejs6.10
+  environment: ${file(./serverless.env.yml):${self:custom.stage}}
+  region: ${self:provider.environment.REGION}
+  profile: ${self:provider.environment.PROFILE}
+  timeout: 30
+  memorySize: 128
+  versionFunctions: true
+
+# The `Functions` you want to deploy
+# ===================================================================
+functions:
+  graphql:
+    handler: src/handlers/handler.graphqlHandler
+    events:
+    - http:
+        path: graphql
+        method: post
+        cors: true
+  graphiql:
+    handler: src/handlers/handler.graphiqlHandler
+    events:
+    - http:
+        path: graphiql
+        method: get
+        cors: true
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-enable-api-logs
+  - serverless-domain-manager
+  - serverless-offline
+
+package:
+  exclude:
+    - package.json
+    - .git
+  include:
+    - src
+    - node_modules/**/*
